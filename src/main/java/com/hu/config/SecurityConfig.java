@@ -1,10 +1,13 @@
 package com.hu.config;
 
 import com.hu.filter.JwtAuthenticationTokenFilter;
+import com.hu.handler.AccessDeniedHandlerImpl;
+import com.hu.handler.AuthenticationEntryPointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 將密碼編碼器注入容器
@@ -31,6 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationTokenFilter filter;
+
+    @Autowired
+    private AuthenticationEntryPointImpl authenticationEntryPoint;
+
+    @Autowired
+    private AccessDeniedHandlerImpl accessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -49,6 +59,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated();
 
+        //添加過濾器
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
+        //配置異常處理器
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint) // 認證失敗處理器
+                .accessDeniedHandler(accessDeniedHandler); // 授權失敗處理器
     }
 }
