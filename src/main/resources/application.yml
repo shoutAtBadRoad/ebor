@@ -1,0 +1,11 @@
+spring:
+  redis:
+    host: 106.15.170.74
+    port: 6379
+    timeout: 1000
+    password: jyjyp123
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://106.15.170.74:3306/iyp?serverTimezone=UTC
+    username: jyp
+    password: jyjyp123
