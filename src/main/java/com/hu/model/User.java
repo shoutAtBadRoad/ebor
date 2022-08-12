@@ -1,5 +1,6 @@
 package com.hu.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@TableName("iuser")
+@TableName("sys_user")
 public class User {
 
     /**
@@ -23,7 +24,11 @@ public class User {
     /**
      * 用戶名
      */
+    @TableField("user_name")
     private String username;
+
+    @TableField("nick_name")
+    private String nickname;
 
     /**
      * 密碼

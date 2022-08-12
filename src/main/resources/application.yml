@@ -9,3 +9,5 @@ spring:
     url: jdbc:mysql://106.15.170.74:3306/iyp?serverTimezone=UTC
     username: jyp
     password: jyjyp123
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
